@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EDAMANASSERY SPINE HOSPITAL | Patient Management System</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP HEADER & NAVIGATION BAR
+       ======================================================================== -->
+  <header class="hospital-header">
+    <div class="header-inner">
+      
+      <!-- Brand & Hospital Logo -->
+      <a class="hospital-branding" href="#" title="Edamanassery Spine Hospital">
+        <div class="brand-logo-wrap">
+          <img src="assets/logo.jpg" alt="Edamanassery Spine Hospital Logo" class="brand-logo-img" onerror="this.src='logo.jpg'" />
+        </div>
+        <div class="brand-info">
+          <div class="brand-name">EDAMANASSERY SPINE HOSPITAL</div>
+          <div class="brand-subtitle">PRIVATE LIMITED • AYURVEDA BACK TO LIFE</div>
+          <div class="brand-address">129/1, Mettupalayam Main Road, Narasimhanaicken Palayam, Coimbatore - 641 031</div>
+        </div>
+      </a>
+
+      <!-- Navigation Menu -->
+      <nav class="nav-menu">
+        <button type="button" class="nav-link active" data-view="registration">
+          <span class="nav-icon">📋</span> Registration
+        </button>
+        <button type="button" class="nav-link" data-view="patients">
+          <span class="nav-icon">👥</span> Patients
+        </button>
+        <button type="button" class="nav-link" data-view="checkup">
+          <span class="nav-icon">🩺</span> Check-up
+        </button>
+        <button type="button" class="nav-link" data-view="history">
+          <span class="nav-icon">📊</span> Patient History
+        </button>
+      </nav>
+
+      <!-- Header Utilities -->
+      <div class="header-actions">
+        <!-- Active Patient Pill -->
+        <div class="active-patient-pill" id="activePatientPill" title="Click to switch active patient">
+          <div class="active-patient-dot"></div>
+          <div>Active: <strong id="activePatientName">None</strong></div>
+          <span style="font-size:0.7rem; color:var(--text-muted);">▼</span>
+        </div>
+
+        <!-- Live Clock -->
+        <div class="live-clock-badge" id="liveClock">Loading time...</div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       MAIN APPLICATION VIEWS
+       ======================================================================== -->
+  <main class="main-wrapper">
+
+    <!-- ======================================================================
+         VIEW 1: PATIENT REGISTRATION SCREEN
+         ====================================================================== -->
+    <section class="app-view active" id="view-registration">
+
+      <!-- View Hero -->
+      <div class="view-hero">
+        <div class="hero-left">
+          <h1>New Patient Registration</h1>
+          <p>Complete outpatient (OP) and inpatient (IP) registration with automated ID assignment</p>
+        </div>
+        <div class="hero-badges">
+          <span class="badge-tag blue">ISO 9001: 2015 Certified</span>
+          <span class="badge-tag gold">Ayush: CMBEAYU20220031614</span>
+          <span class="badge-tag green">Form ESH/CS/F-1</span>
+        </div>
+      </div>
+
+      <form id="patientRegistrationForm" autocomplete="off">
+
+        <!-- Card 1: Patient Information -->
+        <div class="form-card">
+          <div class="card-header-styled">
+            <div class="card-title-group">
+              <div class="card-title-icon">👤</div>
+              <div>
+                <div class="card-title">Patient Information</div>
+                <div class="card-subtitle">Primary demographic and biometric identification</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Photo Upload & Capture Row -->
+          <div class="photo-uploader-box" style="margin-bottom: 22px;">
+            <div class="patient-photo-preview" id="patientPhotoPreview">
+              <div class="photo-placeholder-icon">👤</div>
+              <div class="photo-placeholder-text">No Photo</div>
+            </div>
+            <div class="photo-uploader-controls">
+              <strong style="color:var(--color-primary-dark); font-size:0.92rem;">Patient Photograph</strong>
+              <span style="color:var(--text-muted); font-size:0.75rem;">Upload a recent passport-style photograph or capture live via camera for hospital registration card.</span>
+              <div class="photo-action-buttons">
+                <label class="btn btn-sm btn-outline-primary" style="margin:0;">
+                  📁 Browse File
+                  <input type="file" id="photoFileInput" accept="image/*" style="display:none;" />
+                </label>
+                <button type="button" class="btn btn-sm btn-secondary" id="btnOpenCameraModal">
+                  📷 Use Camera
+                </button>
+                <button type="button" class="btn btn-sm btn-danger-outline" id="btnRemovePhoto">
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fields Grid -->
+          <div class="grid-4">
+            
+            <div class="form-group col-span-2">
+              <label for="patientName">Patient Name <span class="req">*</span></label>
+              <input type="text" id="patientName" class="input-control" placeholder="e.g. MRS. SUMATHI RAJKUMAR" required />
+            </div>
+
+            <div class="form-group">
+              <label for="dob">Date of Birth</label>
+              <input type="date" id="dob" class="input-control" />
+            </div>
+
+            <div class="form-group">
+              <label for="age">Age (Years) <span class="req">*</span></label>
+              <input type="number" id="age" class="input-control" min="0" max="125" placeholder="e.g. 53" required />
+            </div>
+
+            <div class="form-group col-span-2">
+              <label>Sex / Gender <span class="req">*</span></label>
+              <div class="radio-chips-group">
+                <label class="chip-option">
+                  <input type="radio" name="gender" value="Male" />
+                  <span class="chip-label">👨 Male</span>
+                </label>
+                <label class="chip-option">
+                  <input type="radio" name="gender" value="Female" checked />
+                  <span class="chip-label">👩 Female</span>
+                </label>
+                <label class="chip-option">
+                  <input type="radio" name="gender" value="Other" />
+                  <span class="chip-label">⚧ Other</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="maritalStatus">Marital Status</label>
+              <select id="maritalStatus" class="select-control">
+                <option value="Married" selected>Married</option>
+                <option value="Single">Single</option>
+                <option value="Widowed">Widowed</option>
+                <option value="Divorced">Divorced</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="bloodGroup">Blood Group</label>
+              <select id="bloodGroup" class="select-control">
+                <option value="B+" selected>B +ve</option>
+                <option value="O+">O +ve</option>
+                <option value="A+">A +ve</option>
+                <option value="AB+">AB +ve</option>
+                <option value="B-">B -ve</option>
+                <option value="O-">O -ve</option>
+                <option value="A-">A -ve</option>
+                <option value="AB-">AB -ve</option>
+                <option value="Not Known">Not Known</option>
+              </select>
+            </div>
+
+            <div class="form-group col-span-2">
+              <label for="occupation">Occupation</label>
+              <input type="text" id="occupation" class="input-control" placeholder="e.g. Homemaker, Teacher, IT Engineer" />
+            </div>
+
+            <div class="form-group col-span-2">
+              <label for="regDate">Registration Date <span class="req">*</span></label>
+              <input type="date" id="regDate" class="input-control" required />
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Card 2: Contact Information -->
+        <div class="form-card">
+          <div class="card-header-styled">
+            <div class="card-title-group">
+              <div class="card-title-icon">📞</div>
+              <div>
+                <div class="card-title">Contact Information</div>
+                <div class="card-subtitle">Residential address and verified mobile numbers</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            
+            <div class="form-group col-span-2">
+              <label for="patientAddress">Residential Address <span class="req">*</span></label>
+              <textarea id="patientAddress" class="textarea-control" style="min-height:75px;" placeholder="House / Flat No, Street, Area, City, State, PIN Code" required>11, P.R.S Illam, Lakshmipuram, Kanthimade, Coimbatore - 641031</textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="contactNo">Primary Contact No. <span class="req">*</span></label>
+              <input type="tel" id="contactNo" class="input-control" placeholder="10-digit mobile number" maxlength="15" required />
+              <span class="input-hint">Will be used for identification</span>
+            </div>
+
+            <div class="form-group">
+              <label for="altContactNo">Alternate Contact No.</label>
+              <input type="tel" id="altContactNo" class="input-control" placeholder="Secondary mobile or family contact" maxlength="15" />
+            </div>
+
+            <div class="form-group col-span-2">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" class="input-control" placeholder="e.g. patient@example.com" />
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Card 3: Reference & Referral Information -->
+        <div class="form-card">
+          <div class="card-header-styled">
+            <div class="card-title-group">
+              <div class="card-title-icon">🤝</div>
+              <div>
+                <div class="card-title">Reference & Referral Source</div>
+                <div class="card-subtitle">Doctor reference or hospital discovery channel</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            
+            <div class="form-group">
+              <label for="referenceName">Reference Name & Mobile</label>
+              <input type="text" id="referenceName" class="input-control" placeholder="e.g. Dr. Rajesh / Friend Name & Contact" />
+            </div>
+
+            <div class="form-group">
+              <label>How do you come to know about Edamanassery Spine Hospital?</label>
+              <div class="radio-chips-group">
+                <label class="chip-option">
+                  <input type="radio" name="referralSource" value="Google / Internet" />
+                  <span class="chip-label">🌐 Google / Internet</span>
+                </label>
+                <label class="chip-option">
+                  <input type="radio" name="referralSource" value="Relatives / Friends" checked />
+                  <span class="chip-label">👥 Relatives / Friends</span>
+                </label>
+                <label class="chip-option">
+                  <input type="radio" name="referralSource" value="Social Media" />
+                  <span class="chip-label">📱 Social Media</span>
+                </label>
+                <label class="chip-option">
+                  <input type="radio" name="referralSource" value="Name Board / Sign Board" />
+                  <span class="chip-label">🪧 Name Board / Sign Board</span>
+                </label>
+                <label class="chip-option">
+                  <input type="radio" name="referralSource" value="Direct Walk in" />
+                  <span class="chip-label">🚶 Direct Walk in</span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Card 4: Other Family & Billing Information -->
+        <div class="form-card">
+          <div class="card-header-styled">
+            <div class="card-title-group">
+              <div class="card-title-icon">👨‍👩‍👧</div>
+              <div>
+                <div class="card-title">Other Family & Billing Information</div>
+                <div class="card-subtitle">Hospital records of family members and billing responsibility</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            
+            <div class="form-group">
+              <label for="otherFamilyMembers">Other Family Members Seen Here</label>
+              <textarea id="otherFamilyMembers" class="textarea-control" style="min-height:75px;" placeholder="Provide name, relation and previous MRD numbers if any"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="billResponsiblePerson">Person Responsible for Bill</label>
+              <input type="text" id="billResponsiblePerson" class="input-control" placeholder="Name, Relationship, Phone Number, and Address if different" style="margin-bottom:8px;" />
+              <span class="input-hint">Specify name and contact of guarantor/sponsor.</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Card 5: Care Type & Registration Fees -->
+        <div class="form-card">
+          <div class="card-header-styled">
+            <div class="card-title-group">
+              <div class="card-title-icon">💳</div>
+              <div>
+                <div class="card-title">Care Type & Registration Fees</div>
+                <div class="card-subtitle">Standard hospital consultation and admission fee</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fees-grid">
+            <label class="fee-card-option selected" data-type="OP">
+              <input type="radio" name="careType" value="OP" checked />
+              <div>
+                <div class="fee-title">Outpatient Care (OP)</div>
+                <div class="fee-desc">Initial consultation, spine physical assessment & vitals recording</div>
+              </div>
+              <div class="fee-amount-badge">₹250</div>
+            </label>
+
+            <label class="fee-card-option" data-type="IP">
+              <input type="radio" name="careType" value="IP" />
+              <div>
+                <div class="fee-title">Inpatient Admission (IP)</div>
+                <div class="fee-desc">Hospital room admission, intensive spine therapy & nursing care</div>
+              </div>
+              <div class="fee-amount-badge">₹250</div>
+            </label>
+          </div>
+
+          <div class="grid-3" style="margin-top: 18px;">
+            <div class="form-group">
+              <label for="paymentMode">Payment Mode</label>
+              <select id="paymentMode" class="select-control">
+                <option value="Cash" selected>Cash</option>
+                <option value="UPI / GPay">UPI / Google Pay / PhonePe</option>
+                <option value="Debit/Credit Card">Debit / Credit Card</option>
+                <option value="Net Banking">Net Banking</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions Bar -->
+        <div class="form-actions-bar">
+          <button type="button" class="btn btn-secondary" id="btnClearForm">
+            Clear Form
+          </button>
+          <button type="submit" class="btn btn-lg btn-primary" id="btnGenerateReg">
+            Generate Patient Registration
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 2: CHECK-UP / OP-IP INITIAL ASSESSMENT SCREEN (Form ESH/CS/F-1)
+         ====================================================================== -->
+    <section class="app-view" id="view-checkup">
+      
+      <div class="assessment-sheet">
+
+        <!-- Official Hospital Assessment Header -->
+        <div class="assessment-sheet-header">
+          <div class="ash-brand">
+            <img src="assets/logo.jpg" alt="Edamanassery Spine Hospital Logo" class="ash-logo" onerror="this.src='logo.jpg'" />
+            <div class="ash-titles">
+              <h2>EDAMANASSERY SPINE HOSPITAL PRIVATE LIMITED</h2>
+              <div class="sub1">Ayurveda Hospital • Back to Life</div>
+              <div class="sub2">An ISO 9001 : 2015 Certified Hospital • Ayush Regd. No : CMBEAYU20220031614</div>
+              <div class="sub2">129/1, Narasimhanaicken Palayam, Mettupalayam Main Road, Coimbatore - 641 031</div>
+            </div>
+          </div>
+          <div class="ash-form-badge">
+            <span class="ash-form-no">Form No: ESH/CS/F-1</span>
+          </div>
+        </div>
+
+        <div class="ash-main-title">
+          <h3>OP / IP INITIAL ASSESSMENT CHART</h3>
+        </div>
+
+        <!-- Active Patient Quick Strip -->
+        <div class="assessment-patient-banner">
+          <div class="apb-info">
+            <img src="assets/logo.jpg" class="apb-photo" id="cuBannerPhoto" alt="Patient" onerror="this.src='logo.jpg'" />
+            <div class="apb-details">
+              <div class="apb-name" id="cuBannerName">MRS. SUMATHI RAJKUMAR</div>
+              <div class="apb-meta">
+                <span>Reg No: <strong id="cuBannerReg" style="color:var(--color-primary);">ESHPA26090901</strong></span>
+                <span id="cuBannerMeta">Age: 53 | Sex: Female | Blood: B+</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button type="button" class="btn btn-sm btn-outline-primary" id="btnCheckupChangePatient">
+              Change Patient
+            </button>
+          </div>
+        </div>
+
+        <!-- Assessment Form Content -->
+        <div style="padding: 24px;">
+          <form id="checkupAssessmentForm">
+
+            <!-- Card: Patient Details for Assessment -->
+            <div class="form-card">
+              <div class="card-header-styled">
+                <div class="card-title-group">
+                  <div class="card-title-icon">📋</div>
+                  <div>
+                    <div class="card-title">Patient Details & Admission Status</div>
+                    <div class="card-subtitle">Auto-loaded registration information and physician assignment</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid-4">
+                <div class="form-group col-span-2">
+                  <label for="cuPatientName">Patient Name</label>
+                  <input type="text" id="cuPatientName" class="input-control" readonly />
+                </div>
+
+                <div class="form-group">
+                  <label for="cuRegNo">Registration / MRD No.</label>
+                  <input type="text" id="cuRegNo" class="input-control" readonly style="font-family:'Courier New', monospace; font-weight:bold; color:var(--color-primary);" />
+                </div>
+
+                <div class="form-group">
+                  <label for="cuAssessmentTime">Assessment Time</label>
+                  <input type="text" id="cuAssessmentTime" class="input-control" />
+                </div>
+
+                <div class="form-group">
+                  <label for="cuAssessmentDate">Assessment Date</label>
+                  <input type="date" id="cuAssessmentDate" class="input-control" />
+                </div>
+
+                <div class="form-group">
+                  <label for="cuRoomNo">Room No. (For IP)</label>
+                  <input type="text" id="cuRoomNo" class="input-control" placeholder="e.g. Deluxe 204 / Ward 3" />
+                </div>
+
+                <div class="form-group">
+                  <label for="cuDateOfAdmission">Date of Admission</label>
+                  <input type="date" id="cuDateOfAdmission" class="input-control" />
+                </div>
+
+                <div class="form-group">
+                  <label for="cuDateOfDischarge">Date of Discharge</label>
+                  <input type="date" id="cuDateOfDischarge" class="input-control" />
+                </div>
+
+                <div class="form-group">
+                  <label for="cuAge">Age</label>
+                  <input type="number" id="cuAge" class="input-control" readonly />
+                </div>
+
+                <div class="form-group">
+                  <label for="cuSex">Sex</label>
+                  <input type="text" id="cuSex" class="input-control" readonly />
+                </div>
+
+                <div class="form-group">
+                  <label for="cuDob">D.O.B</label>
+                  <input type="text" id="cuDob" class="input-control" readonly />
+                </div>
+
+                <div class="form-group">
+                  <label for="cuOccupation">Occupation</label>
+                  <input type="text" id="cuOccupation" class="input-control" />
+                </div>
+
+                <div class="form-group col-span-2">
+                  <label for="cuPhysician">Consulting Physician <span class="req">*</span></label>
+                  <input type="text" id="cuPhysician" class="input-control" value="Dr. Sandra M George" placeholder="Doctor's full name" required />
+                </div>
+              </div>
+            </div>
+
+            <!-- Card: Vital Signs with Live BMI -->
+            <div class="form-card">
+              <div class="card-header-styled">
+                <div class="card-title-group">
+                  <div class="card-title-icon">💓</div>
+                  <div>
+                    <div class="card-title">Vital Signs & Anthropometry</div>
+                    <div class="card-subtitle">Real-time vitals recording with automated Body Mass Index calculation</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="vitals-cards-container">
+                
+                <div class="vital-metric-card">
+                  <div class="vital-label">
+                    <span>BP (Systolic)</span>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">mmHg</span>
+                  </div>
+                  <div class="vital-input-row">
+                    <input type="number" id="vitalBpSystolic" placeholder="120" value="130" />
+                    <span class="vital-unit">Sys</span>
+                  </div>
+                </div>
+
+                <div class="vital-metric-card">
+                  <div class="vital-label">
+                    <span>BP (Diastolic)</span>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">mmHg</span>
+                  </div>
+                  <div class="vital-input-row">
+                    <input type="number" id="vitalBpDiastolic" placeholder="80" value="80" />
+                    <span class="vital-unit">Dia</span>
+                  </div>
+                </div>
+
+                <div class="vital-metric-card">
+                  <div class="vital-label">
+                    <span>Pulse</span>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">bpm</span>
+                  </div>
+                  <div class="vital-input-row">
+                    <input type="number" id="vitalPulse" placeholder="72" value="67" />
+                    <span class="vital-unit">BPM</span>
+                  </div>
+                </div>
+
+                <div class="vital-metric-card">
+                  <div class="vital-label">
+                    <span>Temperature</span>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">°F</span>
+                  </div>
+                  <div class="vital-input-row">
+                    <input type="number" step="0.1" id="vitalTemp" placeholder="98.4" value="98.4" />
+                    <span class="vital-unit">°F</span>
+                  </div>
+                </div>
+
+                <div class="vital-metric-card">
+                  <div class="vital-label">
+                    <span>Height</span>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">cm</span>
+                  </div>
+                  <div class="vital-input-row">
+                    <input type="number" step="0.5" id="vitalHeight" placeholder="165" value="165" />
+                    <span class="vital-unit">cm</span>
+                  </div>
+                </div>
+
+                <div class="vital-metric-card">
+                  <div class="vital-label">
+                    <span>Weight</span>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">kg</span>
+                  </div>
+                  <div class="vital-input-row">
+                    <input type="number" step="0.1" id="vitalWeight" placeholder="70" value="92.5" />
+                    <span class="vital-unit">kg</span>
+                  </div>
+                </div>
+
+                <div class="vital-metric-card">
+                  <div class="vital-label">
+                    <span>Oxygen (SpO2)</span>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">%</span>
+                  </div>
+                  <div class="vital-input-row">
+                    <input type="number" id="vitalSpo2" placeholder="98" value="98" />
+                    <span class="vital-unit">%</span>
+                  </div>
+                </div>
+
+                <div class="vital-metric-card">
+                  <div class="vital-label">
+                    <span>Resp Rate</span>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">/min</span>
+                  </div>
+                  <div class="vital-input-row">
+                    <input type="number" id="vitalRespRate" placeholder="16" value="18" />
+                    <span class="vital-unit">min</span>
+                  </div>
+                </div>
+
+                <div class="vital-bmi-card">
+                  <div class="vital-label">
+                    <span style="color:var(--color-primary); font-weight:800;">CALCULATED BMI</span>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">kg/m²</span>
+                  </div>
+                  <div>
+                    <div class="bmi-value-display" id="calculatedBmiVal">33.98</div>
+                    <span class="bmi-badge obese" id="bmiClassificationBadge">Obese</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Card: Pain Assessment (Wong-Baker FACES Scale) -->
+            <div class="form-card">
+              <div class="card-header-styled">
+                <div class="card-title-group">
+                  <div class="card-title-icon">⚡</div>
+                  <div>
+                    <div class="card-title">Pain Assessment (Wong-Baker FACES Scale)</div>
+                    <div class="card-subtitle">Visual 0–10 rating scale matching official hospital clinical assessment form</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Wong Baker 0-10 Scale Cards -->
+              <div class="pain-scale-container">
+                
+                <div class="pain-level-card" data-score="0">
+                  <div class="pain-face-svg-wrap">
+                    <svg width="34" height="34" viewBox="0 0 36 36">
+                      <circle cx="18" cy="18" r="16" fill="#10B981" />
+                      <circle cx="12" cy="14" r="2" fill="#ffffff" />
+                      <circle cx="24" cy="14" r="2" fill="#ffffff" />
+                      <path d="M 11 20 Q 18 28 25 20" stroke="#ffffff" stroke-width="2.2" fill="none" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <div class="pain-score-number">0</div>
+                  <div class="pain-level-desc">No Hurt</div>
+                </div>
+
+                <div class="pain-level-card" data-score="2">
+                  <div class="pain-face-svg-wrap">
+                    <svg width="34" height="34" viewBox="0 0 36 36">
+                      <circle cx="18" cy="18" r="16" fill="#84CC16" />
+                      <circle cx="12" cy="14" r="2" fill="#ffffff" />
+                      <circle cx="24" cy="14" r="2" fill="#ffffff" />
+                      <path d="M 12 21 Q 18 25 24 21" stroke="#ffffff" stroke-width="2.2" fill="none" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <div class="pain-score-number">2</div>
+                  <div class="pain-level-desc">Hurts Little Bit</div>
+                </div>
+
+                <div class="pain-level-card" data-score="4">
+                  <div class="pain-face-svg-wrap">
+                    <svg width="34" height="34" viewBox="0 0 36 36">
+                      <circle cx="18" cy="18" r="16" fill="#FBBF24" />
+                      <circle cx="12" cy="14" r="2" fill="#ffffff" />
+                      <circle cx="24" cy="14" r="2" fill="#ffffff" />
+                      <line x1="12" y1="22" x2="24" y2="22" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <div class="pain-score-number">4</div>
+                  <div class="pain-level-desc">Hurts Little More</div>
+                </div>
+
+                <div class="pain-level-card" data-score="6">
+                  <div class="pain-face-svg-wrap">
+                    <svg width="34" height="34" viewBox="0 0 36 36">
+                      <circle cx="18" cy="18" r="16" fill="#F97316" />
+                      <circle cx="12" cy="14" r="2" fill="#ffffff" />
+                      <circle cx="24" cy="14" r="2" fill="#ffffff" />
+                      <path d="M 12 24 Q 18 19 24 24" stroke="#ffffff" stroke-width="2.2" fill="none" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <div class="pain-score-number">6</div>
+                  <div class="pain-level-desc">Hurts Even More</div>
+                </div>
+
+                <div class="pain-level-card selected" data-score="8">
+                  <div class="pain-face-svg-wrap">
+                    <svg width="34" height="34" viewBox="0 0 36 36">
+                      <circle cx="18" cy="18" r="16" fill="#EF4444" />
+                      <circle cx="12" cy="14" r="2" fill="#ffffff" />
+                      <circle cx="24" cy="14" r="2" fill="#ffffff" />
+                      <path d="M 11 25 Q 18 17 25 25" stroke="#ffffff" stroke-width="2.2" fill="none" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <div class="pain-score-number">8</div>
+                  <div class="pain-level-desc">Hurts Whole Lot</div>
+                </div>
+
+                <div class="pain-level-card" data-score="10">
+                  <div class="pain-face-svg-wrap">
+                    <svg width="34" height="34" viewBox="0 0 36 36">
+                      <circle cx="18" cy="18" r="16" fill="#991B1B" />
+                      <circle cx="12" cy="14" r="2" fill="#ffffff" />
+                      <circle cx="24" cy="14" r="2" fill="#ffffff" />
+                      <path d="M 10 26 Q 18 16 26 26" stroke="#ffffff" stroke-width="2.2" fill="none" stroke-linecap="round" />
+                      <circle cx="26" cy="19" r="1.5" fill="#93C5FD" />
+                    </svg>
+                  </div>
+                  <div class="pain-score-number">10</div>
+                  <div class="pain-level-desc">Hurts Worst</div>
+                </div>
+
+              </div>
+
+              <!-- Selected Pain Banner -->
+              <div class="pain-summary-pill">
+                <span style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:var(--text-muted);">Current Pain Rating:</span>
+                <span class="pain-score-callout" id="selectedPainScoreDisplay" style="color:var(--color-danger);">8 / 10</span>
+                <span style="color:var(--text-muted); font-size:0.85rem;" id="selectedPainTextDisplay">- Hurts Whole Lot</span>
+              </div>
+
+              <div class="grid-3">
+                <div class="form-group">
+                  <label for="painLocation">Pain Location</label>
+                  <input type="text" id="painLocation" class="input-control" placeholder="e.g. Neck, Low back" value="Neck & Low Back radiating to legs" />
+                </div>
+
+                <div class="form-group">
+                  <label for="painDuration">Pain Duration</label>
+                  <input type="text" id="painDuration" class="input-control" placeholder="e.g. 5 years" value="5 years (aggravated 3 months)" />
+                </div>
+
+                <div class="form-group">
+                  <label for="painDescription">Pain Description</label>
+                  <input type="text" id="painDescription" class="input-control" placeholder="e.g. Sharp, Burning" value="Burning sensation in heels, bilateral leg numbness, stiffness" />
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Card: Nutritional Screening -->
+            <div class="form-card">
+              <div class="card-header-styled">
+                <div class="card-title-group">
+                  <div class="card-title-icon">🥗</div>
+                  <div>
+                    <div class="card-title">Nutritional Screening</div>
+                    <div class="card-subtitle">Screening questionnaire matching Form No: ESH/CS/F-1</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid-2">
+                
+                <div class="form-group">
+                  <label>1. Built</label>
+                  <div class="radio-chips-group">
+                    <label class="chip-option">
+                      <input type="radio" name="nutriBuilt" value="Normal" />
+                      <span class="chip-label">Normal</span>
+                    </label>
+                    <label class="chip-option">
+                      <input type="radio" name="nutriBuilt" value="Underweight" />
+                      <span class="chip-label">Underweight</span>
+                    </label>
+                    <label class="chip-option">
+                      <input type="radio" name="nutriBuilt" value="Overweight" checked />
+                      <span class="chip-label">Overweight</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>2. Unintentional weight loss in last 6 months</label>
+                  <div class="radio-chips-group">
+                    <label class="chip-option">
+                      <input type="radio" name="nutriWeightLoss" value="Yes" />
+                      <span class="chip-label">Yes</span>
+                    </label>
+                    <label class="chip-option">
+                      <input type="radio" name="nutriWeightLoss" value="No" checked />
+                      <span class="chip-label">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>3. Decrease in food intake in last 6 months</label>
+                  <div class="radio-chips-group">
+                    <label class="chip-option">
+                      <input type="radio" name="nutriDecreaseFood" value="Yes" />
+                      <span class="chip-label">Yes</span>
+                    </label>
+                    <label class="chip-option">
+                      <input type="radio" name="nutriDecreaseFood" value="No" checked />
+                      <span class="chip-label">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>4. Intake of any food / vitamin supplements</label>
+                  <div class="radio-chips-group">
+                    <label class="chip-option">
+                      <input type="radio" name="nutriSupplements" value="Yes" checked />
+                      <span class="chip-label">Yes</span>
+                    </label>
+                    <label class="chip-option">
+                      <input type="radio" name="nutriSupplements" value="No" />
+                      <span class="chip-label">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>5. Suggested for Nutritional Assessment</label>
+                  <div class="radio-chips-group">
+                    <label class="chip-option">
+                      <input type="radio" name="nutriSuggested" value="Yes" />
+                      <span class="chip-label">Yes</span>
+                    </label>
+                    <label class="chip-option">
+                      <input type="radio" name="nutriSuggested" value="No" checked />
+                      <span class="chip-label">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Nutritional Status</label>
+                  <div class="radio-chips-group">
+                    <label class="chip-option">
+                      <input type="radio" name="nutriStatus" value="Normal" />
+                      <span class="chip-label">Normal</span>
+                    </label>
+                    <label class="chip-option">
+                      <input type="radio" name="nutriStatus" value="Abnormal" checked />
+                      <span class="chip-label">Abnormal</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group col-full">
+                  <label for="dietaryAdvice">Dietary Advice</label>
+                  <textarea id="dietaryAdvice" class="textarea-control" placeholder="Ayurvedic dietary advice...">Calorie-restricted anti-inflammatory diet. Warm, freshly prepared meals, reduce heavy fried foods, avoid excessive sour/chilly items. Increase warm fluids, leafy vegetables and cow's ghee in moderation.</textarea>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Card: Mental & Psychosocial Assessment -->
+            <div class="form-card">
+              <div class="card-header-styled">
+                <div class="card-title-group">
+                  <div class="card-title-icon">🧠</div>
+                  <div>
+                    <div class="card-title">Mental & Psychosocial Assessment (for children / general)</div>
+                    <div class="card-subtitle">Behavioral, cognitive, and psychosocial evaluation</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group col-full">
+                  <label>Attachment Status</label>
+                  <div class="radio-chips-group">
+                    <label class="chip-option">
+                      <input type="radio" name="mentalSheet" value="Sheet attached" />
+                      <span class="chip-label">Sheet attached</span>
+                    </label>
+                    <label class="chip-option">
+                      <input type="radio" name="mentalSheet" value="Not applicable" checked />
+                      <span class="chip-label">Not applicable</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="mentalStatus">Mental Status</label>
+                  <input type="text" id="mentalStatus" class="input-control" placeholder="e.g. Conscious, Alert & Oriented" value="Conscious, Alert & Oriented" />
+                </div>
+
+                <div class="form-group">
+                  <label for="psychologicalAssessment">Psychological Assessment</label>
+                  <input type="text" id="psychologicalAssessment" class="input-control" placeholder="e.g. Normal affect" value="Cooperative, mild anxiety secondary to chronic radiating pain" />
+                </div>
+
+                <div class="form-group col-full">
+                  <label for="mentalNotes">Psychosocial Notes</label>
+                  <textarea id="mentalNotes" class="textarea-control" style="min-height:60px;" placeholder="Additional clinical notes...">Good family support system. Sleep pattern interrupted by nocturnal leg burning sensations.</textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card: Ante-Natal Assessment -->
+            <div class="form-card">
+              <div class="card-header-styled">
+                <div class="card-title-group">
+                  <div class="card-title-icon">🤰</div>
+                  <div>
+                    <div class="card-title">Ante-Natal Assessment & Diet Advice</div>
+                    <div class="card-subtitle">Obstetric screening and pregnancy ergonomic spine guidance</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group col-full">
+                  <label>Attachment Status</label>
+                  <div class="radio-chips-group">
+                    <label class="chip-option">
+                      <input type="radio" name="antenatalSheet" value="Sheet attached" />
+                      <span class="chip-label">Sheet attached</span>
+                    </label>
+                    <label class="chip-option">
+                      <input type="radio" name="antenatalSheet" value="Not applicable" checked />
+                      <span class="chip-label">Not applicable</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group col-full">
+                  <label for="antenatalNotes">Ante-Natal Notes</label>
+                  <textarea id="antenatalNotes" class="textarea-control" style="min-height:60px;" placeholder="Specific ante-natal observations if applicable...">Not applicable. Post-menopausal female.</textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card: Presenting Complaints & Duration -->
+            <div class="form-card">
+              <div class="card-header-styled">
+                <div class="card-title-group">
+                  <div class="card-title-icon">🩺</div>
+                  <div>
+                    <div class="card-title">Presenting Complaints & Duration</div>
+                    <div class="card-subtitle">Primary clinical reasons for seeking hospital spine care</div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-primary" id="btnAddPresentingComplaint">
+                  + Add Complaint
+                </button>
+              </div>
+
+              <div class="complaints-list-wrapper" id="presentingComplaintsList">
+                <div class="complaint-row-item">
+                  <input type="text" class="input-control complaint-input" placeholder="e.g. Neck pain" value="Neck pain since 5 years" />
+                  <input type="text" class="input-control duration-input" placeholder="e.g. More aggravated since 3 months" value="More aggravated since 3 months" />
+                  <button type="button" class="btn-remove-row" onclick="this.closest('.complaint-row-item').remove()">&times;</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card: Associated Complaints & Duration -->
+            <div class="form-card">
+              <div class="card-header-styled">
+                <div class="card-title-group">
+                  <div class="card-title-icon">➕</div>
+                  <div>
+                    <div class="card-title">Associated Complaints & Duration</div>
+                    <div class="card-subtitle">Secondary symptoms, radiation, neurological signs</div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-primary" id="btnAddAssociatedComplaint">
+                  + Add Complaint
+                </button>
+              </div>
+
+              <div class="complaints-list-wrapper" id="associatedComplaintsList">
+                <div class="complaint-row-item">
+                  <input type="text" class="input-control complaint-input" placeholder="e.g. Low back pain radiating to both legs" value="Low back pain since 5 years more aggravated since 3 months, radiating to both legs" />
+                  <input type="text" class="input-control duration-input" placeholder="e.g. Since 5 years" value="5 years" />
+                  <button type="button" class="btn-remove-row" onclick="this.closest('.complaint-row-item').remove()">&times;</button>
+                </div>
+                <div class="complaint-row-item">
+                  <input type="text" class="input-control complaint-input" placeholder="e.g. Numbness in both legs & burning sensation of both heels" value="Numbness in both legs & burning sensation of both heels" />
+                  <input type="text" class="input-control duration-input" placeholder="e.g. Since 1 year" value="1 year" />
+                  <button type="button" class="btn-remove-row" onclick="this.closest('.complaint-row-item').remove()">&times;</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card: Doctor Notes & Assessment -->
+            <div class="form-card">
+              <div class="card-header-styled">
+                <div class="card-title-group">
+                  <div class="card-title-icon">👨‍⚕️</div>
+                  <div>
+                    <div class="card-title">Doctor's Assessment & Clinical Notes</div>
+                    <div class="card-subtitle">Physical examination findings, diagnosis, and treatment plan</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group col-full">
+                  <label for="doctorClinicalFindings">Clinical Findings</label>
+                  <textarea id="doctorClinicalFindings" class="textarea-control" placeholder="Palpation, range of motion, Straight Leg Raise (SLR), sensory deficits...">Spine inspection: Mild loss of normal lumbar lordosis. Tenderness elicited over C5-C6 cervical spine and L4-L5, L5-S1 lumbar spinous processes. Bilateral paraspinal muscle spasm noted. Straight Leg Raise (SLR) positive bilaterally at 45 degrees. Sensation diminished along L5-S1 dermatome. Deep tendon reflexes intact.</textarea>
+                </div>
+
+                <div class="form-group col-full">
+                  <label for="doctorDiagnosis">Diagnosis / Provisional Diagnosis <span class="req">*</span></label>
+                  <textarea id="doctorDiagnosis" class="textarea-control" placeholder="Clinical diagnosis...">1. Lumbar Spondylosis with L4-L5, L5-S1 Disc Bulge & Bilateral Sciatic Radiculopathy.
+2. Cervical Spondylosis with Muscle Spasm.</textarea>
+                </div>
+
+                <div class="form-group col-full">
+                  <label for="doctorTreatment">Treatment / Advice</label>
+                  <textarea id="doctorTreatment" class="textarea-control" style="min-height:110px;" placeholder="Prescribed therapies, panchakarma, medications, spine traction...">Comprehensive Conservative Ayurvedic Spine Protocol:
+1. Kati Vasti with Sahacharadi Mezhukupakam & Dhanwantharam Tailam for 7 days.
+2. Patra Pinda Swedana (Elakizhi) for 7 days.
+3. Greeva Vasti with Ksheerabala 101.
+4. Internal Meds:
+   - Tab. Shallaki 1 tab twice daily after food.
+   - Maharasnadi Kashayam 15ml + 45ml warm water twice daily before food.
+   - Ksheerabala 101 capsules 1-0-1.
+5. Lumbo-sacral corset belt while standing/travelling.
+6. Gentle spine traction and rehabilitation therapy.</textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="doctorFollowUp">Follow-up Date & Instructions</label>
+                  <input type="date" id="doctorFollowUp" class="input-control" value="2026-10-10" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Check-up Actions Bar -->
+            <div class="form-actions-bar">
+              <button type="button" class="btn btn-secondary" id="btnResetCheckup">
+                Reset Form
+              </button>
+              <button type="button" class="btn btn-outline-primary" id="btnPrintCheckup">
+                🖨️ Print Assessment Chart
+              </button>
+              <button type="button" class="btn btn-lg btn-gold" id="btnSaveCheckup" style="font-size:1.05rem; padding:14px 34px;">
+                💾 SAVE CHECK-UP
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 3: PATIENTS DIRECTORY & SEARCH SCREEN
+         ====================================================================== -->
+    <section class="app-view" id="view-patients">
+
+      <div class="view-hero">
+        <div class="hero-left">
+          <h1>Patients Directory & Search</h1>
+          <p>Search by Patient Name, Registration Number, or Contact Number</p>
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary" onclick="document.querySelector('.nav-link[data-view=\'registration\']').click()">
+            + Register New Patient
+          </button>
+        </div>
+      </div>
+
+      <div class="patient-directory-card">
+        
+        <!-- Search & Filter Controls -->
+        <div class="search-filter-bar">
+          <div class="search-input-wrap">
+            <span class="search-icon-inside">🔍</span>
+            <input type="text" id="patientSearchInput" class="input-control" placeholder="Search by name, registration no (e.g. ESHPA...), or phone number..." />
+          </div>
+
+          <div class="radio-chips-group">
+            <button type="button" class="chip-label dir-filter-chip selected" data-filter="ALL">All Patients</button>
+            <button type="button" class="chip-label dir-filter-chip" data-filter="OP">Outpatient (OP)</button>
+            <button type="button" class="chip-label dir-filter-chip" data-filter="IP">Inpatient (IP)</button>
+            <button type="button" class="chip-label dir-filter-chip" data-filter="WITH_CHECKUP">With Check-up Done</button>
+          </div>
+
+          <div style="margin-left:auto;">
+            <span class="badge-tag blue" id="patientsCountBadge">2 Patients Found</span>
+          </div>
+        </div>
+
+        <!-- Table View -->
+        <div class="table-responsive">
+          <table class="patient-data-table">
+            <thead>
+              <tr>
+                <th>Patient Details</th>
+                <th>Registration No.</th>
+                <th>Contact</th>
+                <th>Reg Date</th>
+                <th>Care Type</th>
+                <th>Assessment</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="patientsTableBody">
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         VIEW 4: PATIENT MEDICAL HISTORY SCREEN
+         ====================================================================== -->
+    <section class="app-view" id="view-history">
+      
+      <div class="view-hero">
+        <div class="hero-left">
+          <h1>Patient Medical History</h1>
+          <p>Comprehensive longitudinal clinical timeline, vital trends, and assessment reports</p>
+        </div>
+        <div>
+          <button type="button" class="btn btn-outline-primary" onclick="document.querySelector('.nav-link[data-view=\'patients\']').click()">
+            👥 Select Different Patient
+          </button>
+        </div>
+      </div>
+
+      <div id="patientHistoryContainer">
+        <!-- Rendered dynamically via JS -->
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       MODAL 1: PATIENT REGISTRATION CARD (Physical Card Design)
+       ======================================================================== -->
+  <div class="modal-overlay" id="patientCardModal">
+    <div class="modal-container">
+      
+      <div class="modal-header">
+        <h3>🆔 Patient Registration Card Generated</h3>
+        <button type="button" class="modal-close-btn" title="Close Modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        
+        <div class="hospital-id-card-wrapper">
+          <div class="physical-hospital-card" id="printableCardElement">
+            
+            <!-- Left Blue Stripe -->
+            <div class="card-left-strip">
+              <span class="card-left-text">Bring this card at the time of review</span>
+            </div>
+
+            <!-- Main Card Content -->
+            <div class="card-main-content">
+              
+              <!-- Top Row -->
+              <div class="card-top-row">
+                <div class="card-brand-box">
+                  <img src="assets/logo.jpg" alt="Logo" class="card-logo-img" id="cardHospitalLogo" onerror="this.src='logo.jpg'" />
+                  <div>
+                    <div class="card-hospital-title">EDAMANASSERY SPINE HOSPITAL</div>
+                    <div class="card-hospital-tag">PRIVATE LIMITED</div>
+                  </div>
+                </div>
+                <div class="card-doc-type">
+                  Patient<br />Registration Card
+                </div>
+              </div>
+
+              <!-- Middle Row: Photo & Details -->
+              <div class="card-middle-row">
+                <div class="card-patient-photo" id="cardPatientPhoto">
+                  <svg width="100%" height="100%" viewBox="0 0 100 120" style="background:#eaf2f8;">
+                    <rect width="100%" height="100%" fill="#e8f1f7" />
+                    <circle cx="50" cy="45" r="24" fill="#adc5d6" />
+                    <path d="M 20 110 C 20 80, 80 80, 80 110 Z" fill="#adc5d6" />
+                    <text x="50" y="52" font-family="sans-serif" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">PB</text>
+                  </svg>
+                </div>
+
+                <div class="card-fields-grid">
+                  <div class="card-info-item" style="grid-column: span 2;">
+                    <span class="card-info-label">Reg No.:</span>
+                    <span class="card-info-val reg-no-val" id="cardRegNo">ESHPA26080746</span>
+                  </div>
+
+                  <div class="card-info-item" style="grid-column: span 2;">
+                    <span class="card-info-label">Name:</span>
+                    <span class="card-info-val" id="cardPatientName" style="font-size:1.05rem;">PARVEEN BALA SAINI</span>
+                  </div>
+
+                  <div class="card-info-item">
+                    <span class="card-info-label">Age:</span>
+                    <span class="card-info-val" id="cardAge">70</span>
+                  </div>
+
+                  <div class="card-info-item">
+                    <span class="card-info-label">Gender:</span>
+                    <span class="card-info-val" id="cardGender">Female</span>
+                  </div>
+
+                  <div class="card-info-item">
+                    <span class="card-info-label">Blood Group:</span>
+                    <span class="card-info-val" id="cardBloodGroup">O+</span>
+                  </div>
+
+                  <div class="card-info-item">
+                    <span class="card-info-label">Marital Status:</span>
+                    <span class="card-info-val" id="cardMaritalStatus">Married</span>
+                  </div>
+
+                  <div class="card-info-item">
+                    <span class="card-info-label">Occupation:</span>
+                    <span class="card-info-val" id="cardOccupation">Homemaker</span>
+                  </div>
+
+                  <div class="card-info-item">
+                    <span class="card-info-label">Contact:</span>
+                    <span class="card-info-val" id="cardContact">9842215557</span>
+                  </div>
+
+                  <div class="card-info-item" style="grid-column: span 2;">
+                    <span class="card-info-label">Address:</span>
+                    <span class="card-info-val" id="cardAddress" style="font-size:0.78rem;">Coimbatore</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Footer Row: Barcode & Date -->
+              <div class="card-footer-row">
+                <div class="card-barcode-box">
+                  <div id="cardBarcodeSvg">
+                    <svg class="svg-barcode" viewBox="0 0 240 38" preserveAspectRatio="none">
+                      <rect x="10" y="0" width="3" height="38" fill="#132736" /><rect x="15" y="0" width="2" height="38" fill="#132736" /><rect x="19" y="0" width="4" height="38" fill="#132736" /><rect x="25" y="0" width="1" height="38" fill="#132736" /><rect x="28" y="0" width="3" height="38" fill="#132736" /><rect x="33" y="0" width="2" height="38" fill="#132736" /><rect x="37" y="0" width="4" height="38" fill="#132736" /><rect x="43" y="0" width="2" height="38" fill="#132736" /><rect x="47" y="0" width="3" height="38" fill="#132736" /><rect x="52" y="0" width="1" height="38" fill="#132736" /><rect x="55" y="0" width="4" height="38" fill="#132736" /><rect x="61" y="0" width="2" height="38" fill="#132736" /><rect x="65" y="0" width="3" height="38" fill="#132736" /><rect x="70" y="0" width="2" height="38" fill="#132736" /><rect x="74" y="0" width="4" height="38" fill="#132736" /><rect x="80" y="0" width="1" height="38" fill="#132736" /><rect x="83" y="0" width="3" height="38" fill="#132736" /><rect x="88" y="0" width="2" height="38" fill="#132736" /><rect x="92" y="0" width="4" height="38" fill="#132736" /><rect x="98" y="0" width="2" height="38" fill="#132736" /><rect x="102" y="0" width="3" height="38" fill="#132736" /><rect x="107" y="0" width="1" height="38" fill="#132736" /><rect x="110" y="0" width="4" height="38" fill="#132736" /><rect x="116" y="0" width="2" height="38" fill="#132736" /><rect x="120" y="0" width="3" height="38" fill="#132736" /><rect x="125" y="0" width="2" height="38" fill="#132736" /><rect x="129" y="0" width="4" height="38" fill="#132736" /><rect x="135" y="0" width="1" height="38" fill="#132736" /><rect x="138" y="0" width="3" height="38" fill="#132736" /><rect x="143" y="0" width="2" height="38" fill="#132736" /><rect x="147" y="0" width="4" height="38" fill="#132736" /><rect x="153" y="0" width="2" height="38" fill="#132736" /><rect x="157" y="0" width="3" height="38" fill="#132736" /><rect x="162" y="0" width="1" height="38" fill="#132736" /><rect x="165" y="0" width="4" height="38" fill="#132736" /><rect x="171" y="0" width="2" height="38" fill="#132736" /><rect x="175" y="0" width="3" height="38" fill="#132736" /><rect x="180" y="0" width="2" height="38" fill="#132736" /><rect x="184" y="0" width="4" height="38" fill="#132736" /><rect x="190" y="0" width="1" height="38" fill="#132736" /><rect x="193" y="0" width="3" height="38" fill="#132736" /><rect x="198" y="0" width="2" height="38" fill="#132736" /><rect x="202" y="0" width="4" height="38" fill="#132736" /><rect x="208" y="0" width="2" height="38" fill="#132736" /><rect x="212" y="0" width="3" height="38" fill="#132736" />
+                    </svg>
+                  </div>
+                  <div class="barcode-text-sub" id="cardBarcodeText">*ESHPA26080746*</div>
+                </div>
+                <div style="text-align:right;">
+                  <span class="card-info-label">Date</span>
+                  <span class="card-info-val" id="cardRegDate" style="font-size:0.8rem;">28/09/2026</span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="card-actions-row">
+          <button type="button" class="btn btn-lg btn-primary" id="btnCardOpenCheckup" style="font-size:1.05rem;" onclick="window.ESH_APP.openCheckupForPatient(document.getElementById('cardRegNo').textContent); window.ESH_APP.closeModal('patientCardModal');">
+            → OPEN CHECK-UP
+          </button>
+          <button type="button" class="btn btn-outline-primary" id="btnCardPrint">
+            🖨️ Print Registration Card
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="window.ESH_APP.closeModal('patientCardModal')">
+            Close
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 2: WEBCAM PHOTO CAPTURE
+       ======================================================================== -->
+  <div class="modal-overlay" id="cameraModal">
+    <div class="modal-container" style="max-width:540px;">
+      <div class="modal-header">
+        <h3>📷 Patient Live Photo Capture</h3>
+        <button type="button" class="modal-close-btn" id="btnCancelCamera">&times;</button>
+      </div>
+      <div class="modal-body" style="text-align:center;">
+        <div style="background:#000; border-radius:var(--radius-md); overflow:hidden; display:inline-block; max-width:100%;">
+          <video id="webcamVideo" width="480" height="360" autoplay playsinline style="display:block; max-width:100%; height:auto;"></video>
+        </div>
+        <div style="margin-top:18px; display:flex; justify-content:center; gap:12px;">
+          <button type="button" class="btn btn-primary" id="btnSnapCameraPhoto">
+            📸 Capture Photo
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 3: PATIENT SELECTOR MODAL
+       ======================================================================== -->
+  <div class="modal-overlay" id="patientSelectorModal">
+    <div class="modal-container" style="max-width:600px;">
+      <div class="modal-header">
+        <h3>👥 Select Patient</h3>
+        <button type="button" class="modal-close-btn" onclick="window.ESH_APP.closeModal('patientSelectorModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="patientSelectList" style="max-height:360px; overflow-y:auto;">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ========================================================================
+       FOOTER
+       ======================================================================== -->
+  <footer class="hospital-footer">
+    <div class="footer-inner">
+      <div><strong>EDAMANASSERY SPINE HOSPITAL PRIVATE LIMITED</strong> — Hospital Patient Management & Assessment System</div>
+      <div>129/1, Narasimhanaicken Palayam, Mettupalayam Main Road, Coimbatore - 641 031 • Ayush Regd. No : CMBEAYU20220031614</div>
+      <div style="color:var(--text-light); font-size:0.72rem; margin-top:4px;">Direct Chrome Browser Engine • Client-Side LocalStorage Persistence • Form ESH/CS/F-1</div>
+    </div>
+  </footer>
+
+  <!-- Application Controller -->
+  <script src="js/app.js"></script>
+</body>
+</html>
